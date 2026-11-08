@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,7 +24,19 @@ jobs:
           cp pyodide.js pyodide.asm.mjs pyodide.asm.wasm python_stdlib.zip pyodide-lock.json ../../www/pyodide/
       - run: npx cap add android
       - run: npx cap sync android
-      - run: cd android && chmod +x gradlew && ./gradlew assembleDebug
+      - name: Compilar APK de debug (com novas tentativas)
+        run: |
+          cd android
+          chmod +x gradlew
+          sed -i '/^networkTimeout/d' gradle/wrapper/gradle-wrapper.properties
+          printf '\nnetworkTimeout=120000\n' >> gradle/wrapper/gradle-wrapper.properties
+          ok=0
+          for i in 1 2 3; do
+            ./gradlew assembleDebug --no-daemon && ok=1 && break
+            echo "Tentativa $i falhou, aguardando 20s..."
+            sleep 20
+          done
+          [ "$ok" = 1 ]
       - uses: actions/upload-artifact@v4
         with:
           name: trilha-python-apk
