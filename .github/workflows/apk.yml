@@ -1,0 +1,31 @@
+name: Gerar APK
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm install
+      - name: Montar a pasta www com o Pyodide
+        run: |
+          mkdir -p www/pyodide
+          cp index.html worker.js lessons.js www/
+          cd node_modules/pyodide
+          cp pyodide.js pyodide.asm.mjs pyodide.asm.wasm python_stdlib.zip pyodide-lock.json ../../www/pyodide/
+      - run: npx cap add android
+      - run: npx cap sync android
+      - run: cd android && chmod +x gradlew && ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trilha-python-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
