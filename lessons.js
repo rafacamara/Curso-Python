@@ -1,14 +1,68 @@
 /* Fases baseadas nos temas de cada capítulo de "Python Para Leigos". Textos e desafios originais.
    Q = múltipla escolha (pergunta, opções, índice certo). C = código (pergunta, saída esperada, código inicial, solução, código oculto executado depois). */
 var Q=function(q,o,a){return{q:q,o:o,a:a}};
+var QS=function(q,r,w,p){var o=w.slice();o.splice(p,0,r);return{q:q,o:o,a:p}};
 var C=function(q,out,s,h,add){return{q:q,out:out,s:s||"",h:h,add:add||""}};
 var P=[
-{c:1,t:"Falando com seu computador",th:"<p>Um <b>programa</b> é uma sequência de instruções precisas. Como o computador não adivinha o que você quer, usamos uma <b>linguagem de programação</b> para se comunicar com ele. O Python é conhecido por ser fácil de ler.</p>",ch:[
-Q("O que é um programa?",["Um aparelho eletrônico","Uma sequência de instruções para o computador","Um tipo de internet","Um antivírus"],1),
-Q("Por que precisamos de uma linguagem de programação?",["Porque o computador não adivinha o que queremos","Para deixar o PC mais rápido","Para economizar energia","Porque o PC só entende inglês"],0)]},
-{c:2,t:"Obtendo sua cópia do Python",th:"<p>Instale o Python (ou uma distribuição como o Anaconda) e confirme perguntando a versão no terminal:</p><pre>python --version</pre>",ch:[
-Q("Como confirmar que o Python foi instalado?",["Reiniciando o PC","Rodando python --version no terminal","Abrindo o navegador","Apagando a pasta"],1),
-Q("O que é o Anaconda?",["Uma distribuição com Python e ferramentas como o Jupyter","Um editor de fotos","Outra linguagem","Um navegador"],0)]},
+{c:1,t:"Falando com seu computador",tp:[
+{t:"Por que falar com o computador",th:"<p>Nada acontece sem troca de informação entre você e a máquina: ler e-mail, escrever um texto ou comprar um presente são formas de comunicação. Cada tarefa usa dados diferentes, então usamos <b>aplicações</b> (apps) diferentes para expressar nossas ideias ao computador. Quando nenhum app atende seus dados ou seu jeito de trabalhar, dá para criar um sob medida.</p>",ch:[
+QS("Por que existem aplicações diferentes para tarefas diferentes?","Cada tarefa usa dados e formas de interação diferentes",["O computador esquece as instruções","Aplicações são todas iguais","Só assim o computador liga"],0),
+QS("Quando faz sentido criar uma aplicação própria?","Quando nenhum app atende seus dados ou sua necessidade",["Sempre, mesmo que já exista uma igual","Nunca, os apps existentes bastam","Só se você for programador profissional"],2)]},
+{t:"Procedimentos do dia a dia",th:"<p>Um <b>procedimento</b> é um conjunto de passos, em ordem, para executar uma tarefa, como fazer uma torrada. Computadores não fazem nada sem um procedimento: você precisa dizer quais passos seguir e em que ordem. Uma aplicação é, no fundo, um procedimento escrito. E todo procedimento deve ser <b>testado</b>: é comum esquecer passos que parecem óbvios.</p>",ch:[
+QS("O que é um procedimento?","Uma sequência de passos, em ordem, para realizar uma tarefa",["Um erro do programa","Um tipo de hardware","Uma linguagem de programação"],1),
+QS("Uma aplicação é, essencialmente...","um procedimento escrito que diz ao computador o que, quando e como fazer",["um jogo","um arquivo de texto sem função","um tipo de internet"],0),
+QS("Por que testar um procedimento com outra pessoa (ou com o computador)?","Porque é fácil esquecer passos que parecem óbvios",["Para deixá-lo mais bonito","Porque testar não é necessário","Para gastar menos memória"],3)]},
+{t:"Computadores entendem tudo literalmente",th:"<p>Pessoas compensam as falhas de um procedimento; computadores não. Eles executam as instruções <b>de forma literal</b> e precisa, sempre do mesmo jeito. Se o programa pede um valor igual a 5, um valor 4,9 não serve, mesmo que um humano o achasse bom o bastante. Por isso, ao programar, é preciso ser completo e exato.</p>",ch:[
+QS("Se o programa exige um valor igual a 5, o que o computador faz com 4,9?","Considera diferente de 5",["Arredonda para 5 automaticamente","Aceita como bom o suficiente","Pergunta ao usuário"],2),
+QS("Qual descrição combina com o modo como computadores executam instruções?","Literal, exato e sempre igual",["Intuitivo e flexível","Criativo e imprevisível","Aproximado, como uma pessoa"],0),
+C("O computador compara de forma literal. Imprima o resultado de 4.9 == 5.","False","","print(4.9 == 5)")]},
+{t:"Uma linguagem especial",th:"<p>A linguagem humana é ambígua demais para dar ordens exatas. Por isso usamos <b>linguagens de programação</b>: específicas, mas compreensíveis por humanos e por computadores. Por baixo, o computador só trabalha com <b>códigos binários</b> (números); um programa especial traduz o que você escreve.</p>",ch:[
+QS("Por que não escrevemos programas em português ou inglês comuns?","A linguagem humana é ambígua e o computador entende tudo literalmente",["É proibido","O computador só aceita letras maiúsculas","Seria mais lento para digitar"],1),
+QS("Com o que o computador trabalha internamente?","Códigos binários (números)",["Letras e palavras","Imagens","Frases completas"],3),
+QS("Qual é a função de uma linguagem de programação?","Permitir procedimentos precisos que humanos e computador compreendem",["Substituir o sistema operacional","Aumentar a velocidade do processador","Guardar arquivos"],0)]},
+{t:"Aplicações como ponte e planejamento",th:"<p>Uma boa aplicação faz a comunicação ser tão fácil que ela quase 'desaparece': você foca nos dados, não no app. Antes de criar uma, saiba <b>por que</b> a cria, <b>que necessidade</b> atende e <b>para quem</b>. Observar o que você gosta ou não em outros apps ajuda a decidir como o seu deve ser.</p>",ch:[
+QS("Qual é um bom sinal de uma aplicação bem feita?","O usuário foca nos dados, não na aplicação",["Ela tem muitos botões","Ela exige um manual longo","Ela é lenta, mas completa"],1),
+QS("O que definir antes de criar uma aplicação?","Por que a cria, qual necessidade atende e para quem",["Só a cor da tela","O nome da empresa","Nada: é melhor improvisar"],2)]},
+{t:"Por que o Python é tão legal",th:"<p>O Python foi criado para tornar programadores <b>eficientes e produtivos</b>. Segundo o livro, o código costuma ser de 2 a 10 vezes mais curto que em C/C++ ou Java (menos tempo de desenvolvimento). Também é mais fácil de ler e de aprender, com menos regras estranhas. Não é a linguagem mais popular em todos os rankings, mas é uma ótima escolha para aprender.</p>",ch:[
+QS("Qual foi o objetivo principal do Python?","Tornar programadores eficientes e produtivos",["Ser a linguagem mais rápida do mundo","Substituir o código binário","Funcionar só no Windows"],0),
+QS("Segundo o livro, o código Python costuma ser, em relação a C/C++ e Java:","De duas a dez vezes mais curto",["Duas vezes mais longo","Idêntico","Dez vezes mais longo"],2),
+QS("Qual destas NÃO é uma vantagem citada para o Python?","Exigir muitas regras obscuras",["Leitura mais fácil","Menor tempo de aprendizado","Menor tempo de desenvolvimento"],1)]},
+{t:"O que dá para fazer com Python",th:"<p>Usos comuns: criar <b>protótipos</b> rápidos, aplicações para navegador, aplicações <b>matemáticas, científicas e de engenharia</b> (bibliotecas NumPy e SciPy), trabalhar com <b>XML</b> e serviços web, interagir com <b>bancos de dados</b> e criar <b>interfaces gráficas</b> com vários frameworks de GUI.</p>",ch:[
+QS("Quais bibliotecas o capítulo cita para matemática e ciência?","NumPy e SciPy",["Word e Excel","jQuery e React","Photoshop e Premiere"],3),
+QS("Por que o Python é bom para criar protótipos?","Enfatiza a produtividade, então o esboço sai rápido",["Porque gera imagens sozinho","Porque dispensa o computador","Porque é a única linguagem que permite"],0),
+QS("Para que serve o XML, segundo o capítulo?","É a base de muito armazenamento de dados na internet e de serviços web",["Para desenhar interfaces","Para compilar programas","Para criptografar senhas"],1)]},
+{t:"Quem usa e como comparar",th:"<p>Grandes organizações, como Google, NASA, YouTube e Industrial Light &amp; Magic, usam Python em pelo menos alguma tarefa, e esse apoio ajuda a linguagem a evoluir. Não existe a melhor linguagem do mundo: existe a mais adequada a cada aplicação. Comparado a C#, Java e Perl, o Python se destaca por ser mais fácil de aprender e mais conciso.</p>",ch:[
+QS("Por que o apoio de grandes empresas é bom para uma linguagem?","Elas investem para melhorá-la",["Elas a tornam paga","Elas impedem outros de usá-la","Não faz diferença nenhuma"],2),
+QS("Qual ideia o capítulo defende sobre linguagens?","Não existe a melhor linguagem, e sim a mais adequada a cada aplicação",["Python é melhor em tudo","Java é a única válida","Só C serve para conseguir emprego"],1),
+QS("O que o capítulo diz sobre Python em relação a Java, C# e Perl?","O Python é mais fácil de aprender",["O Python é mais difícil de aprender","O Python não pode ser usado em empresas","O Python nunca tem código curto"],0)]}
+]},
+{c:2,t:"Obtendo sua própria cópia do Python",tp:[
+{t:"Baixando a versão de que você precisa",th:"<p>Cada <b>plataforma</b> (combinação de hardware e sistema operacional) tem regras próprias. O Python esconde esses detalhes: você escreve o mesmo código e ele o traduz para a plataforma. Mas é preciso baixar a versão feita para a <b>sua</b> plataforma, no site python.org. Para plataformas menos comuns, as versões costumam ser mantidas por voluntários.</p>",ch:[
+QS("O que é uma plataforma?","Combinação de hardware e sistema operacional",["Um tipo de linguagem","Um site de downloads","Um editor de texto"],1),
+QS("Por que baixar a versão correta para a sua plataforma?","Para o Python conseguir traduzir seu código para ela",["Para o código ficar mais curto","Para o Python ficar gratuito","Para usar o navegador"],0),
+QS("Quem costuma manter o Python para plataformas menos comuns?","Voluntários",["A Microsoft","Os fabricantes de celular","Ninguém"],2)]},
+{t:"O que vem na instalação",th:"<p>O instalador traz tudo para começar: o <b>interpretador</b> Python, arquivos de ajuda (documentação), acesso à <b>linha de comandos</b>, o <b>IDLE</b> (ambiente de desenvolvimento integrado), o gerenciador de pacotes <b>pip</b> e, quando a plataforma exige, o desinstalador.</p>",ch:[
+QS("Qual componente executa seu código Python?","O interpretador",["O pip","O desinstalador","A documentação"],2),
+QS("Para que serve o pip?","Gerenciar pacotes",["Editar fotos","Navegar na web","Formatar o disco"],0),
+QS("O que é o IDLE?","Um ambiente de desenvolvimento integrado que acompanha o Python",["Um tipo de erro","Um sistema operacional","Uma biblioteca de gráficos"],3)]},
+{t:"Instalando no Windows",th:"<p>No Windows, execute o instalador baixado e marque <b>Add Python to PATH</b>, que permite acessar o Python de qualquer pasta. Evite instalar em <i>Program Files</i>: o nome tem espaço (atrapalha o acesso por código) e a pasta costuma exigir direitos de administrador. O livro usa uma pasta simples, como <code>C:\\Python36</code>.</p>",ch:[
+QS("O que a opção Add Python to PATH faz?","Permite acessar o Python de qualquer lugar do disco",["Apaga versões antigas","Acelera o computador","Cria um atalho na área de trabalho"],1),
+QS("Por que evitar instalar na pasta Program Files?","O nome tem espaço e ela costuma exigir administrador",["Ela não existe no Windows","O Python não cabe nela","É proibido pela licença"],0)]},
+{t:"Instalando no Mac e no Linux",th:"<p>O Mac normalmente já traz um Python, mas costuma ser antigo; dá para instalar uma versão mais nova pelo pacote do site oficial. No Linux, distribuições baseadas em RPM (como Fedora e CentOS) geralmente já têm Python. A instalação padrão a partir do código-fonte usa o Terminal (<code>./configure</code>, <code>make</code>, <code>sudo make altinstall</code>); no Ubuntu há também a instalação gráfica pela central de software.</p>",ch:[
+QS("Em geral, o que acontece com o Python em um Mac?","Já vem instalado, mas pode ser uma versão antiga",["Não existe Python no Mac","Só funciona com Anaconda","Precisa ser compilado sempre"],2),
+QS("Qual comando do Linux monta (compila) o Python antes de instalar?","make",["print","help","quit"],0),
+QS("O que é a instalação gráfica no Ubuntu?","Instalar o Python pela central de software, sem digitar comandos",["Instalar pelo navegador","Instalar por pen drive","Instalar por e-mail"],1)]},
+{t:"Acessando o Python na sua máquina",th:"<p>Depois de instalar, há três jeitos de abrir o Python: pelo <b>IDLE</b> (ambiente gráfico), pela <b>linha de comando do Python</b> (menu Iniciar, ou Terminal no Mac) ou digitando <code>python</code> num prompt de comando. O último exige o Python no PATH e permite usar <b>opções de linha de comando</b> (veja-as com <code>python /?</code>). No Linux, pode ser preciso digitar o número da versão, como <code>python3.6</code>.</p>",ch:[
+QS("Qual opção abre o ambiente gráfico do Python?","IDLE",["Terminal","pip","make"],3),
+QS("Para digitar python em qualquer prompt, o que precisa estar configurado?","O PATH incluindo o Python",["Um antivírus","Conexão com a internet","Uma conta no GitHub"],0),
+QS("Para que servem as opções de linha de comando?","Alterar como o Python funciona ao ser iniciado",["Apagar arquivos","Atualizar o Windows","Escrever e-mails"],1)]},
+{t:"Testando sua instalação",th:"<p>O teste clássico: no IDLE, digite <code>print('...')</code> e o Python mostra o texto. Ele também aceita contas direto: <code>3 + 4</code> responde <code>7</code>. O IDLE colore o código: roxo para comandos, verde para o conteúdo enviado ao comando, azul para a saída e preto para entradas que não são comandos. Para encerrar a sessão, use <code>quit()</code>. Todo comando tem parênteses, mesmo vazios.</p>",ch:[
+QS("O que o comando print() faz?","Mostra na tela o que você pedir",["Imprime em papel","Apaga a tela","Fecha o IDLE"],2),
+QS("No IDLE, a saída de um comando aparece em qual cor?","Azul",["Roxo","Verde","Preto"],0),
+QS("Como reconhecer que quit é um comando?","Ele tem parênteses, como print()",["Ele começa com maiúscula","Ele vem entre aspas","Ele nunca aparece colorido"],1),
+C("Faça o teste da instalação: imprima This is my first Python program.","This is my first Python program.","","print('This is my first Python program.')"),
+C("Peça ao Python para calcular 3 + 4 e mostre o resultado.","7","","print(3 + 4)")]}
+]},
 {c:3,t:"Interagindo com o Python",th:"<p>Na linha de comando você digita instruções e vê o resultado na hora. Dentro do Python, <code>help()</code> abre a ajuda e <code>exit()</code> encerra a sessão. <code>type()</code> mostra o tipo de um valor.</p>",ch:[
 Q("Qual função abre a ajuda do Python?",["ajuda()","help()","manual()","info()"],1),
 C("Mostre o tipo do número 5 usando print e type.","<class 'int'>","# print + type\n","print(type(5))")]},
