@@ -2,6 +2,7 @@
    Q = múltipla escolha (pergunta, opções, índice certo). C = código (pergunta, saída esperada, código inicial, solução, código oculto executado depois). */
 var Q=function(q,o,a){return{q:q,o:o,a:a}};
 var QS=function(q,r,w,p){var o=w.slice();o.splice(p,0,r);return{q:q,o:o,a:p}};
+var M=function(q,t,s,h){return{q:q,tests:t,s:s||"",h:h,add:""}};
 var C=function(q,out,s,h,add){return{q:q,out:out,s:s||"",h:h,add:add||""}};
 var P=[
 {c:1,t:"Falando com seu computador",tp:[
@@ -35,6 +36,11 @@ QS("Para que serve o XML, segundo o capítulo?","É a base de muito armazenament
 QS("Por que o apoio de grandes empresas é bom para uma linguagem?","Elas investem para melhorá-la",["Elas a tornam paga","Elas impedem outros de usá-la","Não faz diferença nenhuma"],2),
 QS("Qual ideia o capítulo defende sobre linguagens?","Não existe a melhor linguagem, e sim a mais adequada a cada aplicação",["Python é melhor em tudo","Java é a única válida","Só C serve para conseguir emprego"],1),
 QS("O que o capítulo diz sobre Python em relação a Java, C# e Perl?","O Python é mais fácil de aprender",["O Python é mais difícil de aprender","O Python não pode ser usado em empresas","O Python nunca tem código curto"],0)]}
+,{t:"Maratona: leia, calcule, imprima",th:"<p>Em <b>maratonas de programação</b>, cada problema traz uma <b>entrada</b> (lida com <code>input()</code>) e pede uma <b>saída</b> (escrita com <code>print()</code>). O programa roda contra vários testes e a saída precisa ser <b>exatamente</b> a pedida, a mesma literalidade deste capítulo. <code>int(input())</code> lê um inteiro, <code>float(input())</code> um decimal e <code>input()</code> sozinho lê texto. Cada valor vem em uma linha.</p><pre>a = int(input())\nb = int(input())\nprint(a + b)</pre><p>Os problemas vão do mais fácil ao mais difícil. Você pode consultar o exemplo de solução depois de duas tentativas erradas.</p>",ch:[
+M("Soma simples\nLeia dois inteiros, A e B (um por linha), e imprima A + B.",[["3\n4","7"],["10\n-2","8"],["0\n0","0"]],"","a = int(input())\nb = int(input())\nprint(a + b)"),
+M("Literalidade\nLeia um número decimal X e imprima True se X for exatamente igual a 5, ou False caso contrário.",[["5","True"],["4.9","False"],["5.0","True"],["5.01","False"]],"","x = float(input())\nprint(x == 5)"),
+M("Torradeira\nA torradeira faz até 2 fatias por vez e cada rodada leva 3 minutos. Leia N, o número de fatias, e imprima quantos minutos até todas ficarem prontas.\nDica: // divide e descarta a parte decimal.",[["2","3"],["3","6"],["5","9"],["10","15"],["1","3"]],"","n = int(input())\nprint((n + 1) // 2 * 3)"),
+M("Relógio\nLeia S, um tempo em segundos, e imprima as horas, os minutos e os segundos restantes, separados por espaço.\nDica: use // e %. Exemplo: 3661 vira 1 1 1.",[["3661","1 1 1"],["59","0 0 59"],["7200","2 0 0"],["86399","23 59 59"]],"","s = int(input())\nprint(s // 3600, s % 3600 // 60, s % 60)")]}
 ]},
 {c:2,t:"Obtendo sua própria cópia do Python",tp:[
 {t:"Baixando a versão de que você precisa",th:"<p>Cada <b>plataforma</b> (combinação de hardware e sistema operacional) tem regras próprias. O Python esconde esses detalhes: você escreve o mesmo código e ele o traduz para a plataforma. Mas é preciso baixar a versão feita para a <b>sua</b> plataforma, no site python.org. Para plataformas menos comuns, as versões costumam ser mantidas por voluntários.</p>",ch:[
@@ -62,6 +68,11 @@ QS("No IDLE, a saída de um comando aparece em qual cor?","Azul",["Roxo","Verde"
 QS("Como reconhecer que quit é um comando?","Ele tem parênteses, como print()",["Ele começa com maiúscula","Ele vem entre aspas","Ele nunca aparece colorido"],1),
 C("Faça o teste da instalação: imprima This is my first Python program.","This is my first Python program.","","print('This is my first Python program.')"),
 C("Peça ao Python para calcular 3 + 4 e mostre o resultado.","7","","print(3 + 4)")]}
+,{t:"Maratona: Python instalado, mãos à obra",th:"<p>Com o Python funcionando, treine o ciclo da maratona: <b>ler</b> a entrada, <b>calcular</b> e <b>imprimir</b> no formato exato. Dois detalhes ajudam: <code>texto.split('.')</code> separa um texto em partes e <code>round(x, 1)</code> arredonda para uma casa decimal. Cada <code>print()</code> escreve uma linha.</p>",ch:[
+M("Olá, instalação\nLeia um nome e imprima: Olá, NOME! Python funcionando.",[["Ana","Olá, Ana! Python funcionando."],["Bruno","Olá, Bruno! Python funcionando."]],"","nome = input()\nprint('Olá, ' + nome + '! Python funcionando.')"),
+M("Calculadora do IDLE\nLeia dois inteiros, A e B (um por linha), e imprima em três linhas: A + B, A - B e A * B.",[["3\n4","7\n-1\n12"],["10\n2","12\n8\n20"],["0\n5","5\n-5\n0"]],"","a = int(input())\nb = int(input())\nprint(a + b)\nprint(a - b)\nprint(a * b)"),
+M("Média das notas\nLeia três notas inteiras (uma por linha) e imprima a média arredondada para uma casa decimal.",[["7\n8\n9","8.0"],["10\n5\n5","6.7"],["0\n0\n1","0.3"]],"","a = int(input())\nb = int(input())\nc = int(input())\nprint(round((a + b + c) / 3, 1))"),
+M("Número da versão\nLeia uma versão do Python no formato X.Y.Z e imprima a soma de X, Y e Z.\nExemplo: 3.6.2 vira 11.",[["3.6.2","11"],["3.12.1","16"],["2.7.10","19"]],"","p = input().split('.')\nprint(int(p[0]) + int(p[1]) + int(p[2]))")]}
 ]},
 {c:3,t:"Interagindo com o Python",th:"<p>Na linha de comando você digita instruções e vê o resultado na hora. Dentro do Python, <code>help()</code> abre a ajuda e <code>exit()</code> encerra a sessão. <code>type()</code> mostra o tipo de um valor.</p>",ch:[
 Q("Qual função abre a ajuda do Python?",["ajuda()","help()","manual()","info()"],1),
