@@ -40,6 +40,7 @@ textarea:focus,button:focus-visible{outline:3px solid var(--acc);outline-offset:
 </style>
 </head>
 <body>
+<script>window.onerror=function(m,s,l){var d=document.createElement("pre");d.style.cssText="white-space:pre-wrap;background:#fff;color:#b00;padding:12px;margin:0;font:12px monospace";d.textContent="Erro: "+m+" ("+String(s).split("/").pop()+":"+l+")";document.body.insertBefore(d,document.body.firstChild)}</script>
 <main id="app"></main>
 <script src="lessons.js"></script>
 <script>
@@ -60,7 +61,7 @@ function run(code,inp){return new Promise(function(res){var t;
 function home(){cur=null;var n=Object.keys(S.done).length,lv=Math.floor(S.xp/100)+1,pc=S.xp%100;
  var h='<div class="top"><h1>Trilha Python</h1><div class="stats"><span class="chip" id="py"></span><span class="chip">🔥 '+S.streak+'</span><span class="chip">'+S.xp+' XP</span></div></div>';
  h+='<div class="bar"><i style="width:'+pc+'%"></i></div><p style="color:var(--mute);margin:6px 0 0;font-size:14px">Nível '+lv+' · '+n+' de '+P.length+' fases concluídas</p><ul class="trail">';
- P.forEach(function(l,i){h+='<li class="'+(S.done[i]?"done":"")+'"><button class="lesson" onclick="start('+i+')"><b>Fase '+(i+1)+': '+l.t+'</b><span>Capítulo '+l.c+' · '+l.ch.length+' desafios</span></button></li>'});
+ P.forEach(function(l,i){h+='<li class="'+(S.done[i]?"done":"")+'"><button class="lesson" onclick="start('+i+')"><b>Fase '+(i+1)+': '+l.t+'</b><span>Capítulo '+l.c+' · '+steps(l).filter(function(c){return !c.th}).length+' desafios</span></button></li>'});
  h+='</ul><button class="btn ghost" onclick="reset()">Zerar progresso</button>';A.innerHTML=h;badge()}
 function reset(){if(confirm("Apagar todo o progresso?")){S={xp:0,done:{},last:"",streak:0};save();home()}}
 function steps(l){var tp=l.tp||[{t:l.t,th:l.th,ch:l.ch}],s=[];tp.forEach(function(t){s.push({th:t.th,t:t.t});t.ch.forEach(function(c){s.push(c)})});return s}
@@ -86,7 +87,7 @@ function check(){var c=cur.st[cur.k],fb=document.getElementById("fb");
   if(cur.tries>1)m+="\n\nExemplo de solução:\n"+c.h;fb.textContent=m})})(0)}
 function finish(){var first=!S.done[cur.i];if(first){S.done[cur.i]=1;S.xp+=20;cur.gain+=20;tick();save()}
  A.innerHTML='<div class="card big"><h2>Fase concluída</h2><p>'+(first?"Você ganhou +"+cur.gain+" XP nesta fase.":"Treino feito. +"+cur.gain+" XP.")+'</p><button class="btn" onclick="home()">Voltar à trilha</button></div>'}
-load();boot();home();
+load();home();try{boot()}catch(e){W=null;badge=function(){var b=document.getElementById("py");if(b)b.textContent="🐍 indisponível"};badge()}
 </script>
 </body>
 </html>
