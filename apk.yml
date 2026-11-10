@@ -21,7 +21,9 @@ jobs:
           mkdir -p www/pyodide
           cp index.html worker.js lessons.js www/
           cd node_modules/pyodide
-          cp pyodide.js pyodide.asm.mjs pyodide.asm.wasm python_stdlib.zip pyodide-lock.json ../../www/pyodide/
+          cp pyodide.asm.wasm python_stdlib.zip pyodide-lock.json ../../www/pyodide/
+          sed 's/pyodide\.asm\.mjs/pyodide.asm.js/g' pyodide.mjs > ../../www/pyodide/pyodide.module.js
+          sed 's/pyodide\.asm\.mjs/pyodide.asm.js/g' pyodide.asm.mjs > ../../www/pyodide/pyodide.asm.js
       - run: npx cap add android
       - run: npx cap sync android
       - name: Compilar APK de debug (novas tentativas e espelho do Gradle)

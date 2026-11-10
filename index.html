@@ -51,9 +51,9 @@ function ds(d){return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
 function tick(){var t=ds(new Date());if(S.last===t)return;var y=new Date();y.setDate(y.getDate()-1);S.streak=S.last===ds(y)?S.streak+1:1;S.last=t}
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 function badge(){var b=document.getElementById("py");if(b)b.textContent=ready?"🐍 pronto":"🐍 carregando…"}
-function boot(){ready=false;W=new Worker("worker.js");
+function boot(){ready=false;W=new Worker("worker.js",{type:"module"});
  W.onmessage=function(m){var d=m.data;if(d.ready){ready=true;badge();if(waitReady){var f=waitReady;waitReady=null;f()}}else if(pending){var p=pending;pending=null;p(d)}};
- W.onerror=function(){if(pending){var p=pending;pending=null;p({ok:false,out:"",err:"Não foi possível iniciar o Python."})}}}
+ W.onerror=function(ev){var b=document.getElementById("py");if(b)b.textContent="🐍 erro: "+((ev&&ev.message)||"worker");if(pending){var p=pending;pending=null;p({ok:false,out:"",err:"Não foi possível iniciar o Python."})}}}
 function run(code,inp){return new Promise(function(res){var t;
  var go=function(){pending=function(r){clearTimeout(t);res(r)};W.postMessage({code:code,input:inp||""});
   t=setTimeout(function(){pending=null;W.terminate();boot();res({ok:false,out:"",err:"Tempo esgotado. Há um loop infinito?"})},8000)};

@@ -1,5 +1,5 @@
-importScripts("pyodide/pyodide.js");
-var py,ready=loadPyodide({indexURL:"pyodide/"}).then(function(p){py=p;postMessage({ready:true})});
+import {loadPyodide} from "./pyodide/pyodide.module.js";
+var py,ready=loadPyodide({indexURL:new URL("pyodide/",import.meta.url).href}).then(function(p){py=p;postMessage({ready:true})});
 onmessage=async function(e){
   await ready;var out=[],lines=e.data.input?e.data.input.split("\n"):[];
   py.setStdout({batched:function(s){out.push(s)}});
