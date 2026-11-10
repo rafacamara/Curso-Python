@@ -24,18 +24,27 @@ jobs:
           cp pyodide.js pyodide.asm.mjs pyodide.asm.wasm python_stdlib.zip pyodide-lock.json ../../www/pyodide/
       - run: npx cap add android
       - run: npx cap sync android
-      - name: Compilar APK de debug (com novas tentativas)
+      - name: Compilar APK de debug (novas tentativas e espelho do Gradle)
         run: |
           cd android
           chmod +x gradlew
-          sed -i '/^networkTimeout/d' gradle/wrapper/gradle-wrapper.properties
-          printf '\nnetworkTimeout=120000\n' >> gradle/wrapper/gradle-wrapper.properties
+          P=gradle/wrapper/gradle-wrapper.properties
+          sed -i '/^networkTimeout/d' $P
+          printf '\nnetworkTimeout=120000\n' >> $P
           ok=0
-          for i in 1 2 3; do
+          for i in 1 2 3 4; do
+            if [ $i -ge 3 ]; then
+              echo "Usando espelho alternativo do Gradle"
+              sed -i 's#^distributionUrl=.*#distributionUrl=https\\://mirrors.cloud.tencent.com/gradle/gradle-8.14.3-all.zip#' $P
+            fi
             ./gradlew assembleDebug --no-daemon && ok=1 && break
-            echo "Tentativa $i falhou, aguardando 20s..."
-            sleep 20
+            echo "Tentativa $i falhou, aguardando 30s..."
+            sleep 30
           done
+          if [ "$ok" != 1 ]; then
+            echo "Ultima tentativa: Gradle instalado no servidor"
+            gradle assembleDebug --no-daemon && ok=1
+          fi
           [ "$ok" = 1 ]
       - uses: actions/upload-artifact@v4
         with:
